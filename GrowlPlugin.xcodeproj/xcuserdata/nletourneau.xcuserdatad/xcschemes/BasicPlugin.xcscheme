@@ -14,7 +14,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D01CCC60486CAD60068D4B7"
-               BuildableName = "BasicPlugin.bundle"
+               BuildableName = "GrowlPlugin.bundle"
                BlueprintName = "GrowlPlugin"
                ReferencedContainer = "container:GrowlPlugin.xcodeproj">
             </BuildableReference>
