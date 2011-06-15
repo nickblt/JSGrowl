@@ -9,7 +9,7 @@ This is an NPAPI based browser plugin that exposes 3 functions (isInstalled, isR
 
 Usage
 -----
-Embed the plugin and then get the embed object, once that is done you can call the JS functions at will.
+Embed the plugin and then get the embed element, once that is done you can call the JS functions at will.
 
 &lt;embed type="application/x-growl-plugin" id="growl" hidden="true" /&gt;
 
