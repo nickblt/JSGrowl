@@ -4,6 +4,11 @@
 
 #include <GrowlNotifier.h>
 
+static bool hasMethod(NPObject* obj, NPIdentifier methodName);
+static bool invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, uint32_t argCount, NPVariant *result);
+static bool hasProperty(NPObject *obj, NPIdentifier propertyName);
+static bool getProperty(NPObject *obj, NPIdentifier propertyName, NPVariant *result);
+
 NPError NP_Initialize(NPNetscapeFuncs *browserFuncs);
 NPError NP_GetEntryPoints(NPPluginFuncs *pluginFuncs);
 void    NP_Shutdown(void);

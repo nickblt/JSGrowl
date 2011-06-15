@@ -8,11 +8,13 @@ static GrowlNotifier *growl;
 // all the crap for JS callbacks
 static NPObject *so = NULL;
 
+// big hammer!
 static bool hasMethod(NPObject* obj, NPIdentifier methodName)
 {
   return true;
 }
 
+// the meat of the JS calls, passes everything through to growl.
 static bool invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, uint32_t argCount, NPVariant *result)
 {
   char *name = browser->utf8fromidentifier(methodName);
@@ -28,9 +30,9 @@ static bool invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args
         if (args[0].type == NPVariantType_String && args[1].type == NPVariantType_String)
         {
           NSString *title = [NSString stringWithCString:args[0].value.stringValue.UTF8Characters
-                                              encoding:NSUTF8StringEncoding];
-          NSString *message = [NSString stringWithCString:args[1].value.stringValue.UTF8Characters
                                                encoding:NSUTF8StringEncoding];
+          NSString *message = [NSString stringWithCString:args[1].value.stringValue.UTF8Characters
+                                                 encoding:NSUTF8StringEncoding];
 
           if (argCount == 2)
           {
@@ -62,16 +64,19 @@ static bool invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args
   return false;
 }
 
+// no properties to show to JS
 static bool hasProperty(NPObject *obj, NPIdentifier propertyName)
 {
 	return false;
 }
 
+// no properties to show to JS
 static bool getProperty(NPObject *obj, NPIdentifier propertyName, NPVariant *result)
 {
 	return false;
 }
 
+// object references for passing to the browser
 static NPClass npcRefObject = {
   NP_CLASS_STRUCT_VERSION,
   NULL,

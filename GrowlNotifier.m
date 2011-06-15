@@ -7,6 +7,7 @@
   if ( (self = [super init]) ) {
     /* Tell growl we are going to use this class to hand growl notifications */
     [GrowlApplicationBridge setGrowlDelegate:self];
+    // keeping track of connections and data in case there are concurrent downloads
     connectionToInfoMapping = CFDictionaryCreateMutable(kCFAllocatorDefault,
                                                         0,
                                                         &kCFTypeDictionaryKeyCallBacks,
@@ -31,8 +32,31 @@
                         nil];
   return dict;
 }
+/* End methods from GrowlApplicationBridgeDelegate */
 
+/*!
+ * @brief Returns state of growl installation
+ *
+ * @return BOOL growl installation state
+ */
+- (BOOL) isGrowlInstalled
+{
+  return [GrowlApplicationBridge isGrowlInstalled];
+}
 
+/*!
+ * @brief Returns the running state of growl
+ *
+ * @return BOOL growl running state
+ */
+- (BOOL) isGrowlRunning
+{
+  return [GrowlApplicationBridge isGrowlRunning];
+}
+
+/*!
+ * @brief Shows a growl alert with no icon
+ */
 -(void) growlAlertWithTitle:(NSString *)title message:(NSString *)message
 {
   [GrowlApplicationBridge notifyWithTitle:title
@@ -43,7 +67,11 @@
                                  isSticky:NO
                              clickContext:nil];
 }
--(void) growlAlertWithTitle:(NSString *)title message:(NSString *)message icon:(NSData *)icon
+
+/*!
+ * @brief Shows a growl alert with an NSData icon
+ */
+- (void) growlAlertWithTitle:(NSString *)title message:(NSString *)message icon:(NSData *)icon
 {
   [GrowlApplicationBridge notifyWithTitle:title
                               description:message
@@ -54,7 +82,15 @@
                              clickContext:nil];
 }
 
--(void) growlAlertWithTitle:(NSString *)title message:(NSString *)message iconURL:(NSString *)url
+
+/*!
+ * @brief Shows a growl alert with an icon after downloading it
+ * 
+ * This method take the url and starts downloading it and only displays
+ * the growl notification if it successfully downloads it.
+ * If there are any failures it displays the alert without an icon.
+ */
+- (void) growlAlertWithTitle:(NSString *)title message:(NSString *)message iconURL:(NSString *)url
 {
   NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
                                            cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -62,7 +98,8 @@
 
   NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
  
-  if (connection) {
+  if (connection)
+  {
     CFDictionaryAddValue(connectionToInfoMapping,
                          connection,
                          [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -73,11 +110,14 @@
                           message,
                           @"message",
                           nil]);
-  } else {
+  }
+  else
+  {
     [self growlAlertWithTitle:title message:message];
   }
 }
 
+/* Begin methods from NSURLConnection delegate */
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
   NSMutableDictionary *connectionInfo = CFDictionaryGetValue(connectionToInfoMapping, connection);
@@ -90,6 +130,10 @@
   [[connectionInfo objectForKey:@"receivedData"] appendData:data];
 }
 
+
+/*!
+ * @brief Shows a growl alert with no icon on failure
+ */
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
 
@@ -102,6 +146,10 @@
                     message:[connectionInfo objectForKey:@"message"]];  
 }
 
+
+/*!
+ * @brief Shows a growl alert with with the icon
+ */
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
   [connection release];
@@ -117,18 +165,11 @@
   [icon release];
 }
 
--(BOOL) isGrowlInstalled
-{
-  return [GrowlApplicationBridge isGrowlInstalled];
-}
-
--(BOOL) isGrowlRunning
-{
-  return [GrowlApplicationBridge isGrowlRunning];
-}
+/* End methods from NSURLConnection delegate */
 
 /* Dealloc method */
-- (void) dealloc { 
+- (void) dealloc
+{ 
   [super dealloc]; 
 }
 @end
