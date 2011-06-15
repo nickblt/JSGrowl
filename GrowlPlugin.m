@@ -27,7 +27,7 @@ static bool invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args
   char *name = browser->utf8fromidentifier(methodName);
   if(name)
   {
-    if(!strcmp(name, "trackChange"))
+    if(!strcmp(name, "alert"))
     {
       if (argCount == 2)
       {
