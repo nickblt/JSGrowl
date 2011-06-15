@@ -216,7 +216,7 @@
 		4FADC23808B4156C00ABE55E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PREPROCESSOR_DEFINITIONS = "XP_MACOSX=1";
@@ -234,7 +234,7 @@
 		4FADC23908B4156C00ABE55E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PREPROCESSOR_DEFINITIONS = "XP_MACOSX=1";
