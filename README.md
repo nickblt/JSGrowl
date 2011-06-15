@@ -1,20 +1,30 @@
 Javascript Growl
 ================
 
+Requires the Growl SDK for compilation, which can be obtained (here)[http://growl.info/downloads_developers.php].
+
 I wanted to write a chrome extension for [Google Music](http://music.google.com) and [The Hype Machine](http://hypem.com) to display alerts in [Growl](http://growl.info), this is the first step.
 
-This is an NPAPI based browser plugin that exposes 3 functions to JS.
+This is an NPAPI based browser plugin that exposes 3 functions (isInstalled, isRunning, and notify) to JS.
 
-isGrowlInstalled
-----------------
-plugin.isGrowlInstalled() - self explanitory
-
-isGrowlRunning
---------------
-plugin.isGrowlRunning() - also self explanitory
-
-alert
+Usage
 -----
-plugin.alert("title", "message") - sends to growl with no icon.
+Embed the plugin and then get the embed object, once that is done you can call the JS functions at will.
 
-plugin.alert("title", "message" "image url") - sends to growl and attempts to download url with a 3 second timeout displaying the image as the growl icon
+<embed type="application/x-growl-plugin" id="growl" hidden="true" />
+var growl = document.getElementById('growl');
+
+
+isInstalled
+----------------
+growl.isInstalled() - self explanitory
+
+isRunning
+--------------
+growl.isRunning() - also self explanitory
+
+notify
+-----
+growl.notify("title", "message") - sends to growl with no icon.
+
+growl.notify("title", "message" "image url") - sends to growl and attempts to download url with a 3 second timeout displaying the image as the growl icon

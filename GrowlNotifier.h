@@ -8,9 +8,10 @@
 @interface GrowlNotifier :NSObject <GrowlApplicationBridgeDelegate> {
   CFMutableDictionaryRef connectionToInfoMapping;
 } 
--(BOOL) isGrowlInstalled;
--(BOOL) isGrowlRunning;
--(void) growlAlertWithTitle:(NSString *)title message:(NSString *)message;
--(void) growlAlertWithTitle:(NSString *)title message:(NSString *)message icon:(NSData *)icon;
--(void) growlAlertWithTitle:(NSString *)title message:(NSString *)message iconURL:(NSString *)url;
+-(BOOL) isInstalled;
+-(BOOL) isRunning;
+-(void) notifyWithTitle:(NSString *)title description:(NSString *)message;
+-(void) notifyWithTitle:(NSString *)title description:(NSString *)message iconData:(NSData *)icon;
+-(void) notifyWithTitle:(NSString *)title description:(NSString *)message iconURL:(NSString *)url;
+
 @end

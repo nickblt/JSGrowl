@@ -1,9 +1,9 @@
 <embed type="application/x-growl-plugin" id="growl" hidden="true" />
 <script>
-  var embed = document.getElementById('growl');
-  var installed = embed.isGrowlInstalled();
-  var running = embed.isGrowlRunning();
+  var growl = document.getElementById('growl');
+  var installed = growl.isInstalled();
+  var running = growl.isRunning();
   alert("Installed: "+installed+" Running: "+running);
 </script>
-<a href="javascript:embed.alert('hi', 'hello with icon', 'http://lh6.googleusercontent.com/Y1OVGZMgnWeGpun6aGgoWfWcw3ZnrGpQdhIe90e_kWlDhAeZXn3Hk7Vyyi74FxmQodAMz5Klb7LgtQ=s256-c');" >icon</a>
-<a href="javascript:embed.alert('hi', 'hello without icon');" >no icon</a>
+<a href="javascript:growl.notify('hi', 'hello with icon', 'http://lh6.googleusercontent.com/Y1OVGZMgnWeGpun6aGgoWfWcw3ZnrGpQdhIe90e_kWlDhAeZXn3Hk7Vyyi74FxmQodAMz5Klb7LgtQ=s256-c');" >icon</a>
+<a href="javascript:growl.notify('hi', 'hello without icon');" >no icon</a>

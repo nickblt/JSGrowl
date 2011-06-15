@@ -23,7 +23,7 @@ static bool invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args
     result->type = NPVariantType_Bool;
     result->value.boolValue = false;
 
-    if(!strcmp(name, "alert"))
+    if(!strcmp(name, "notify"))
     {
       if (argCount == 2 || argCount == 3)
       {
@@ -31,33 +31,33 @@ static bool invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args
         {
           NSString *title = [NSString stringWithCString:args[0].value.stringValue.UTF8Characters
                                                encoding:NSUTF8StringEncoding];
-          NSString *message = [NSString stringWithCString:args[1].value.stringValue.UTF8Characters
-                                                 encoding:NSUTF8StringEncoding];
+          NSString *description = [NSString stringWithCString:args[1].value.stringValue.UTF8Characters
+                                                     encoding:NSUTF8StringEncoding];
 
           if (argCount == 2)
           {
-            [growl growlAlertWithTitle:title message:message];
+            [growl notifyWithTitle:title description:description];
             result->value.boolValue = true;
           }
           else if (args[2].type == NPVariantType_String)
           {
             NSString *url = [NSString stringWithCString:args[2].value.stringValue.UTF8Characters
                                                encoding:NSUTF8StringEncoding];
-            [growl growlAlertWithTitle:title message:message iconURL:url];
+            [growl notifyWithTitle:title description:description iconURL:url];
             result->value.boolValue = true;            
           }
         }
       }
       return true;
     }
-    else if(!strcmp(name, "isGrowlInstalled"))
+    else if(!strcmp(name, "isInstalled"))
     {
-      result->value.boolValue = [growl isGrowlInstalled];
+      result->value.boolValue = [growl isInstalled];
       return true;
     }
-    else if(!strcmp(name, "isGrowlRunning"))
+    else if(!strcmp(name, "isRunning"))
     {
-      result->value.boolValue = [growl isGrowlRunning];
+      result->value.boolValue = [growl isRunning];
       return true;
     }
   }

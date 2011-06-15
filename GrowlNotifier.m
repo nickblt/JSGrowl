@@ -39,7 +39,7 @@
  *
  * @return BOOL growl installation state
  */
-- (BOOL) isGrowlInstalled
+- (BOOL) isInstalled
 {
   return [GrowlApplicationBridge isGrowlInstalled];
 }
@@ -49,7 +49,7 @@
  *
  * @return BOOL growl running state
  */
-- (BOOL) isGrowlRunning
+- (BOOL) isRunning
 {
   return [GrowlApplicationBridge isGrowlRunning];
 }
@@ -57,7 +57,7 @@
 /*!
  * @brief Shows a growl alert with no icon
  */
--(void) growlAlertWithTitle:(NSString *)title message:(NSString *)message
+-(void) notifyWithTitle:(NSString *)title description:(NSString *)message
 {
   [GrowlApplicationBridge notifyWithTitle:title
                               description:message
@@ -71,7 +71,7 @@
 /*!
  * @brief Shows a growl alert with an NSData icon
  */
-- (void) growlAlertWithTitle:(NSString *)title message:(NSString *)message icon:(NSData *)icon
+-(void) notifyWithTitle:(NSString *)title description:(NSString *)message iconData:(NSData *)icon
 {
   [GrowlApplicationBridge notifyWithTitle:title
                               description:message
@@ -90,7 +90,7 @@
  * the growl notification if it successfully downloads it.
  * If there are any failures it displays the alert without an icon.
  */
-- (void) growlAlertWithTitle:(NSString *)title message:(NSString *)message iconURL:(NSString *)url
+-(void) notifyWithTitle:(NSString *)title description:(NSString *)message iconURL:(NSString *)url
 {
   NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
                                            cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -113,7 +113,7 @@
   }
   else
   {
-    [self growlAlertWithTitle:title message:message];
+    [self notifyWithTitle:title description:message];
   }
 }
 
@@ -142,8 +142,8 @@
   NSMutableDictionary *connectionInfo = CFDictionaryGetValue(connectionToInfoMapping, connection);
   [[connectionInfo objectForKey:@"receivedData"] release];
 
-  [self growlAlertWithTitle:[connectionInfo objectForKey:@"title"]
-                    message:[connectionInfo objectForKey:@"message"]];  
+  [self notifyWithTitle:[connectionInfo objectForKey:@"title"]
+            description:[connectionInfo objectForKey:@"message"]];  
 }
 
 
@@ -159,9 +159,9 @@
 
   [[connectionInfo objectForKey:@"receivedData"] release];
   
-  [self growlAlertWithTitle:[connectionInfo objectForKey:@"title"]
-                    message:[connectionInfo objectForKey:@"message"]
-                       icon:[NSData dataWithData:[icon TIFFRepresentation]]];
+  [self notifyWithTitle:[connectionInfo objectForKey:@"title"]
+            description:[connectionInfo objectForKey:@"message"]
+               iconData:[NSData dataWithData:[icon TIFFRepresentation]]];
   [icon release];
 }
 
