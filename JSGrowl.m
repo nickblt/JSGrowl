@@ -1,4 +1,4 @@
-#include "GrowlPlugin.h"
+#include "JSGrowl.h"
 
 // structure containing pointers to functions implemented by the browser
 static NPNetscapeFuncs *browser;

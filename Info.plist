@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.nletourneau.growlplugin</string>
+	<string>com.nletourneau.jsgrowl</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -17,16 +17,16 @@
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>WebPluginDescription</key>
-	<string>Simple plugin to bridge javascript to growl</string>
+	<string>Simple plugin to expose growl to javascript calls</string>
 	<key>WebPluginMIMETypes</key>
 	<dict>
-		<key>application/x-growl-plugin</key>
+		<key>application/x-jsgrowl</key>
 		<dict>
 			<key>WebPluginTypeDescription</key>
 			<string>Growl plugin</string>
 		</dict>
 	</dict>
 	<key>WebPluginName</key>
-	<string>Growl plugin</string>
+	<string>JS Growl</string>
 </dict>
 </plist>
