@@ -109,16 +109,8 @@ NPError NP_GetEntryPoints(NPPluginFuncs* pluginFuncs)
   pluginFuncs->newp = NPP_New;
   pluginFuncs->destroy = NPP_Destroy;
   pluginFuncs->setwindow = NPP_SetWindow;
-  pluginFuncs->newstream = NPP_NewStream;
-  pluginFuncs->destroystream = NPP_DestroyStream;
-  pluginFuncs->asfile = NPP_StreamAsFile;
-  pluginFuncs->writeready = NPP_WriteReady;
-  pluginFuncs->write = (NPP_WriteProcPtr)NPP_Write;
-  pluginFuncs->print = NPP_Print;
   pluginFuncs->event = NPP_HandleEvent;
-  pluginFuncs->urlnotify = NPP_URLNotify;
   pluginFuncs->getvalue = NPP_GetValue;
-  pluginFuncs->setvalue = NPP_SetValue;
   
   return NPERR_NO_ERROR;
 }
@@ -175,47 +167,7 @@ NPError NPP_SetWindow(NPP instance, NPWindow* window)
   return NPERR_NO_ERROR;
 }
 
-NPError NPP_NewStream(NPP instance, NPMIMEType type, NPStream* stream, NPBool seekable, uint16_t* stype)
-{
-  *stype = NP_ASFILEONLY;
-  return NPERR_NO_ERROR;
-}
-
-NPError NPP_DestroyStream(NPP instance, NPStream* stream, NPReason reason)
-{
-  return NPERR_NO_ERROR;
-}
-
-int32_t NPP_WriteReady(NPP instance, NPStream* stream)
-{
-  return 0;
-}
-
-int32_t NPP_Write(NPP instance, NPStream* stream, int32_t offset, int32_t len, void* buffer)
-{
-  return 0;
-}
-
-void NPP_StreamAsFile(NPP instance, NPStream* stream, const char* fname)
-{
-}
-
-void NPP_Print(NPP instance, NPPrint* platformPrint)
-{
-  
-}
-
 int16_t NPP_HandleEvent(NPP instance, void* event)
 {
   return 0;
-}
-
-void NPP_URLNotify(NPP instance, const char* url, NPReason reason, void* notifyData)
-{
-  
-}
-
-NPError NPP_SetValue(NPP instance, NPNVariable variable, void *value)
-{
-  return NPERR_NO_ERROR;
 }
