@@ -18,11 +18,11 @@ var growl = document.getElementById('growl');
 
 isInstalled
 ----------------
-growl.isInstalled() - self explanitory
+growl.isInstalled() - returns true if growl is installed.
 
 isRunning
 --------------
-growl.isRunning() - also self explanitory
+growl.isRunning() - returns true if growl is running.
 
 notify
 -----
