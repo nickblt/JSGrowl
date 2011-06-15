@@ -9,6 +9,7 @@
   CFMutableDictionaryRef connectionToInfoMapping;
 } 
 -(void) growlAlertWithTitle:(NSString *)title message:(NSString *)message;
+-(void) growlAlertWithTitle:(NSString *)title message:(NSString *)message icon:(NSData *)icon;
 -(void) growlAlertWithTitle:(NSString *)title message:(NSString *)message iconURL:(NSString *)url;
 -(BOOL) isGrowlInstalled;
 -(BOOL) isGrowlRunning;
