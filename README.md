@@ -1,7 +1,7 @@
 Javascript Growl
 ================
 
-Requires the Growl SDK for compilation, which can be obtained (here)[http://growl.info/downloads_developers.php].
+Requires the Growl SDK for compilation, which can be obtained [here](http://growl.info/downloads_developers.php).
 
 I wanted to write a chrome extension for [Google Music](http://music.google.com) and [The Hype Machine](http://hypem.com) to display alerts in [Growl](http://growl.info), this is the first step.
 
