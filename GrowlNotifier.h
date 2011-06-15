@@ -10,8 +10,8 @@
 } 
 -(BOOL) isInstalled;
 -(BOOL) isRunning;
--(void) notifyWithTitle:(NSString *)title description:(NSString *)message;
--(void) notifyWithTitle:(NSString *)title description:(NSString *)message iconData:(NSData *)icon;
--(void) notifyWithTitle:(NSString *)title description:(NSString *)message iconURL:(NSString *)url;
+-(void) notifyWithTitle:(NSString *)title description:(NSString *)description;
+-(void) notifyWithTitle:(NSString *)title description:(NSString *)description iconData:(NSData *)icon;
+-(void) notifyWithTitle:(NSString *)title description:(NSString *)description iconURL:(NSString *)url;
 
 @end

@@ -57,10 +57,10 @@
 /*!
  * @brief Shows a growl alert with no icon
  */
--(void) notifyWithTitle:(NSString *)title description:(NSString *)message
+-(void) notifyWithTitle:(NSString *)title description:(NSString *)description
 {
   [GrowlApplicationBridge notifyWithTitle:title
-                              description:message
+                              description:description
                          notificationName:GN_NOTIFICATION_NAME
                                  iconData:nil
                                  priority:0
@@ -71,10 +71,10 @@
 /*!
  * @brief Shows a growl alert with an NSData icon
  */
--(void) notifyWithTitle:(NSString *)title description:(NSString *)message iconData:(NSData *)icon
+-(void) notifyWithTitle:(NSString *)title description:(NSString *)description iconData:(NSData *)icon
 {
   [GrowlApplicationBridge notifyWithTitle:title
-                              description:message
+                              description:description
                          notificationName:GN_NOTIFICATION_NAME
                                  iconData:icon
                                  priority:0
@@ -90,7 +90,7 @@
  * the growl notification if it successfully downloads it.
  * If there are any failures it displays the alert without an icon.
  */
--(void) notifyWithTitle:(NSString *)title description:(NSString *)message iconURL:(NSString *)url
+-(void) notifyWithTitle:(NSString *)title description:(NSString *)description iconURL:(NSString *)url
 {
   NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
                                            cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -107,13 +107,13 @@
                           @"receivedData",
                           title,
                           @"title",
-                          message,
-                          @"message",
+                          description,
+                          @"description",
                           nil]);
   }
   else
   {
-    [self notifyWithTitle:title description:message];
+    [self notifyWithTitle:title description:description];
   }
 }
 
@@ -143,7 +143,7 @@
   [[connectionInfo objectForKey:@"receivedData"] release];
 
   [self notifyWithTitle:[connectionInfo objectForKey:@"title"]
-            description:[connectionInfo objectForKey:@"message"]];  
+            description:[connectionInfo objectForKey:@"description"]];  
 }
 
 
@@ -152,15 +152,15 @@
  */
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+  NSMutableDictionary *connectionInfo = CFDictionaryGetValue(connectionToInfoMapping, connection);
   [connection release];
 
-  NSMutableDictionary *connectionInfo = CFDictionaryGetValue(connectionToInfoMapping, connection);
   NSImage *icon = [[NSImage alloc] initWithData:[connectionInfo objectForKey:@"receivedData"]];
-
   [[connectionInfo objectForKey:@"receivedData"] release];
+
   
   [self notifyWithTitle:[connectionInfo objectForKey:@"title"]
-            description:[connectionInfo objectForKey:@"message"]
+            description:[connectionInfo objectForKey:@"description"]
                iconData:[NSData dataWithData:[icon TIFFRepresentation]]];
   [icon release];
 }
