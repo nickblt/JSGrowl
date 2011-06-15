@@ -11,7 +11,7 @@ Usage
 -----
 Embed the plugin and then get the embed object, once that is done you can call the JS functions at will.
 
-<embed type="application/x-growl-plugin" id="growl" hidden="true" />
+&lt;embed type="application/x-growl-plugin" id="growl" hidden="true" /&gt;
 var growl = document.getElementById('growl');
 
 
