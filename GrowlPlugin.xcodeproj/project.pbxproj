@@ -12,6 +12,8 @@
 		45996F0D13A6C96A00040B03 /* GrowlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 45996F0C13A6C96A00040B03 /* GrowlPlugin.m */; };
 		45996F1013A6CAD500040B03 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45996F0F13A6CAD500040B03 /* Growl.framework */; };
 		45996F1513A6D33900040B03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45996F1413A6D33900040B03 /* Foundation.framework */; };
+		45D1DBFA13A8197800666E69 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D1DBF913A8197800666E69 /* AppKit.framework */; };
+		45D1DBFC13A8357E00666E69 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D1DBFB13A8357E00666E69 /* CoreFoundation.framework */; };
 		8D01CCCA0486CAD60068D4B7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +27,8 @@
 		45996F0F13A6CAD500040B03 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Library/Frameworks/Growl.framework; sourceTree = SDKROOT; };
 		45996F1413A6D33900040B03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		45D1DBF713A8184A00666E69 /* GrowlPlugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlPlugin_Prefix.pch; sourceTree = "<group>"; };
+		45D1DBF913A8197800666E69 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		45D1DBFB13A8357E00666E69 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		8D01CCD10486CAD60068D4B7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D01CCD20486CAD60068D4B7 /* GrowlPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -34,6 +38,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45D1DBFC13A8357E00666E69 /* CoreFoundation.framework in Frameworks */,
+				45D1DBFA13A8197800666E69 /* AppKit.framework in Frameworks */,
 				4588E90C13A6F41800AA8A94 /* WebKit.framework in Frameworks */,
 				45996F1513A6D33900040B03 /* Foundation.framework in Frameworks */,
 				45996F1013A6CAD500040B03 /* Growl.framework in Frameworks */,
@@ -57,6 +63,8 @@
 		089C1671FE841209C02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				45D1DBFB13A8357E00666E69 /* CoreFoundation.framework */,
+				45D1DBF913A8197800666E69 /* AppKit.framework */,
 				4588E90B13A6F41700AA8A94 /* WebKit.framework */,
 				45996F1413A6D33900040B03 /* Foundation.framework */,
 				45996F0F13A6CAD500040B03 /* Growl.framework */,
