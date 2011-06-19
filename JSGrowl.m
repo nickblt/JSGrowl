@@ -63,6 +63,8 @@ static bool growlNotify(const NPVariant *args, uint32_t argCount)
       if (argCount == 2)
       {
         [growl notifyWithTitle:title description:description];
+        [title release];
+        [description release];
         return true;
       }
       else if (args[2].type == NPVariantType_String)
@@ -71,6 +73,9 @@ static bool growlNotify(const NPVariant *args, uint32_t argCount)
                                                  length:args[2].value.stringValue.UTF8Length
                                                encoding:NSUTF8StringEncoding];
         [growl notifyWithTitle:title description:description iconURL:url];
+        [title release];
+        [description release];
+        [url release];
         return true;            
       }
     }
