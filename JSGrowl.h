@@ -4,6 +4,9 @@
 
 #include <GrowlNotifier.h>
 
+
+static bool growlRegister(const NPVariant *args, uint32_t argCount);
+static bool growlNotify(const NPVariant *args, uint32_t argCount);
 static bool hasMethod(NPObject* obj, NPIdentifier methodName);
 static bool invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, uint32_t argCount, NPVariant *result);
 static bool hasProperty(NPObject *obj, NPIdentifier propertyName);

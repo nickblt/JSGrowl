@@ -7,7 +7,11 @@
 
 @interface GrowlNotifier :NSObject <GrowlApplicationBridgeDelegate> {
   CFMutableDictionaryRef connectionToInfoMapping;
-} 
+  NSString *applicationName;
+  NSImage *applicationIcon;
+}
+- (id) initWithAppName:(NSString *)appName;
+- (id) initWithAppName:(NSString *)appName iconURL:(NSString *)iconURL;
 -(BOOL) isInstalled;
 -(BOOL) isRunning;
 -(void) notifyWithTitle:(NSString *)title description:(NSString *)description;

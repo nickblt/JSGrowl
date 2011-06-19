@@ -2,7 +2,7 @@
 
 // structure containing pointers to functions implemented by the browser
 static NPNetscapeFuncs *browser;
-static GrowlNotifier *growl;
+static GrowlNotifier *growl = NULL;
 
 
 // all the crap for JS callbacks
@@ -14,40 +14,88 @@ static bool hasMethod(NPObject* obj, NPIdentifier methodName)
   return true;
 }
 
+static bool growlRegister(const NPVariant *args, uint32_t argCount)
+{
+  if (growl)
+    [growl release];
+
+  if (argCount == 1 || argCount == 2)
+  {
+    if (args[0].type == NPVariantType_String && args[1].type == NPVariantType_String)
+    {
+      NSString *appName = [NSString stringWithCString:args[0].value.stringValue.UTF8Characters
+                                             encoding:NSUTF8StringEncoding];
+
+      if (argCount == 1)
+      {
+        growl = [[GrowlNotifier alloc] initWithAppName:appName];
+        return true;
+      }
+      else if (args[1].type == NPVariantType_String)
+      {
+        NSString *url = [NSString stringWithCString:args[1].value.stringValue.UTF8Characters
+                                           encoding:NSUTF8StringEncoding];
+
+        growl = [[GrowlNotifier alloc] initWithAppName:appName iconURL:url];
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+
+// send the notification off to growl
+static bool growlNotify(const NPVariant *args, uint32_t argCount)
+{
+  if (argCount == 2 || argCount == 3)
+  {
+    if (args[0].type == NPVariantType_String && args[1].type == NPVariantType_String)
+    {
+      NSString *title = [[NSString alloc] initWithBytes:args[0].value.stringValue.UTF8Characters
+                                                 length:args[0].value.stringValue.UTF8Length
+                                               encoding:NSUTF8StringEncoding];
+
+      NSString *description = [[NSString alloc] initWithBytes:args[1].value.stringValue.UTF8Characters
+                                                       length:args[1].value.stringValue.UTF8Length
+                                                     encoding:NSUTF8StringEncoding];
+
+      if (argCount == 2)
+      {
+        [growl notifyWithTitle:title description:description];
+        return true;
+      }
+      else if (args[2].type == NPVariantType_String)
+      {
+        NSString *url = [[NSString alloc] initWithBytes:args[2].value.stringValue.UTF8Characters
+                                                 length:args[2].value.stringValue.UTF8Length
+                                               encoding:NSUTF8StringEncoding];
+        [growl notifyWithTitle:title description:description iconURL:url];
+        return true;            
+      }
+    }
+  }
+  return false;
+}
+
 // the meat of the JS calls, passes everything through to growl.
 static bool invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args, uint32_t argCount, NPVariant *result)
 {
-  char *name = browser->utf8fromidentifier(methodName);
-  if(name)
+  char *name = browser->utf8fromidentifier(methodName);  
+
+  if(name && !strcmp(name, "register"))
+  {
+    result->value.boolValue = growlRegister(args, argCount);
+    return true;
+  }
+  else if(name && growl)
   {
     result->type = NPVariantType_Bool;
     result->value.boolValue = false;
 
     if(!strcmp(name, "notify"))
     {
-      if (argCount == 2 || argCount == 3)
-      {
-        if (args[0].type == NPVariantType_String && args[1].type == NPVariantType_String)
-        {
-          NSString *title = [NSString stringWithCString:args[0].value.stringValue.UTF8Characters
-                                               encoding:NSUTF8StringEncoding];
-          NSString *description = [NSString stringWithCString:args[1].value.stringValue.UTF8Characters
-                                                     encoding:NSUTF8StringEncoding];
-
-          if (argCount == 2)
-          {
-            [growl notifyWithTitle:title description:description];
-            result->value.boolValue = true;
-          }
-          else if (args[2].type == NPVariantType_String)
-          {
-            NSString *url = [NSString stringWithCString:args[2].value.stringValue.UTF8Characters
-                                               encoding:NSUTF8StringEncoding];
-            [growl notifyWithTitle:title description:description iconURL:url];
-            result->value.boolValue = true;            
-          }
-        }
-      }
+      result->value.boolValue = growlNotify(args, argCount);
       return true;
     }
     else if(!strcmp(name, "isInstalled"))
@@ -97,7 +145,6 @@ NPError NP_Initialize(NPNetscapeFuncs* browserFuncs)
 {  
   // save away browser functions
   browser = browserFuncs;
-  growl = [[GrowlNotifier alloc] init];
   return NPERR_NO_ERROR;
 }
 
@@ -118,7 +165,8 @@ NPError NP_GetEntryPoints(NPPluginFuncs* pluginFuncs)
 // Symbol called once by the browser to shut down the plugin
 void NP_Shutdown(void)
 {
-  [growl release];
+  if (growl)
+    [growl release];
 }
 
 // Called to create a new instance of the plugin

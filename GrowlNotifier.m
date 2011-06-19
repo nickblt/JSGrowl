@@ -2,8 +2,10 @@
 
 @implementation GrowlNotifier
 
-/* Init method */
-- (id) init { 
+- (id) initWithAppName:(NSString *)appName
+{
+  applicationName = appName;
+
   if ( (self = [super init]) ) {
     /* Tell growl we are going to use this class to hand growl notifications */
     [GrowlApplicationBridge setGrowlDelegate:self];
@@ -14,6 +16,14 @@
                                                         &kCFTypeDictionaryValueCallBacks);
   }
   return self;
+}
+
+- (id) initWithAppName:(NSString *)appName iconURL:(NSString *)iconURL
+{
+  applicationIcon = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:iconURL]];
+  
+
+  return [self initWithAppName:appName];
 }
 
 /* Begin methods from GrowlApplicationBridgeDelegate */
@@ -27,10 +37,19 @@
                         GROWL_NOTIFICATIONS_ALL,
                         array,
                         GROWL_NOTIFICATIONS_DEFAULT,
-                        GN_APPLICATION_NAME,
+                        applicationName,
                         GROWL_APP_NAME,
                         nil];
   return dict;
+}
+
+- (NSData *) applicationIconDataForGrowl
+{
+  if (applicationIcon)
+  {
+    return [applicationIcon TIFFRepresentation];
+  }
+  return nil;
 }
 /* End methods from GrowlApplicationBridgeDelegate */
 
@@ -73,6 +92,7 @@
  */
 -(void) notifyWithTitle:(NSString *)title description:(NSString *)description iconData:(NSData *)icon
 {
+  //NSLog(@"title: %@ desc: %@", title, description);
   [GrowlApplicationBridge notifyWithTitle:title
                               description:description
                          notificationName:GN_NOTIFICATION_NAME
@@ -92,6 +112,7 @@
  */
 -(void) notifyWithTitle:(NSString *)title description:(NSString *)description iconURL:(NSString *)url
 {
+  //NSLog(@"title: %@ desc: %@ url: %@", title, description, url);
   NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
                                            cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                        timeoutInterval:3.0];
@@ -120,13 +141,13 @@
 /* Begin methods from NSURLConnection delegate */
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-  NSMutableDictionary *connectionInfo = CFDictionaryGetValue(connectionToInfoMapping, connection);
+  const NSMutableDictionary *connectionInfo = CFDictionaryGetValue(connectionToInfoMapping, connection);
   [[connectionInfo objectForKey:@"receivedData"] setLength:0];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-  NSMutableDictionary *connectionInfo = CFDictionaryGetValue(connectionToInfoMapping, connection);
+  const NSMutableDictionary *connectionInfo = CFDictionaryGetValue(connectionToInfoMapping, connection);
   [[connectionInfo objectForKey:@"receivedData"] appendData:data];
 }
 
@@ -139,7 +160,7 @@
 
   [connection release];
 
-  NSMutableDictionary *connectionInfo = CFDictionaryGetValue(connectionToInfoMapping, connection);
+  const NSMutableDictionary *connectionInfo = CFDictionaryGetValue(connectionToInfoMapping, connection);
   [[connectionInfo objectForKey:@"receivedData"] release];
 
   [self notifyWithTitle:[connectionInfo objectForKey:@"title"]
@@ -152,7 +173,7 @@
  */
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-  NSMutableDictionary *connectionInfo = CFDictionaryGetValue(connectionToInfoMapping, connection);
+  const NSMutableDictionary *connectionInfo = CFDictionaryGetValue(connectionToInfoMapping, connection);
   [connection release];
 
   NSImage *icon = [[NSImage alloc] initWithData:[connectionInfo objectForKey:@"receivedData"]];
@@ -169,7 +190,8 @@
 
 /* Dealloc method */
 - (void) dealloc
-{ 
+{
+  [applicationIcon release];
   [super dealloc]; 
 }
 @end

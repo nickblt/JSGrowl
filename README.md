@@ -5,7 +5,7 @@ Requires the Growl SDK for compilation, which can be obtained [here](http://grow
 
 I wanted to write a chrome extension for [Google Music](http://music.google.com) and [The Hype Machine](http://hypem.com) to display alerts in [Growl](http://growl.info), this is the first step.
 
-This is an NPAPI based browser plugin that exposes 3 functions (isInstalled, isRunning, and notify) to JS.
+This is an NPAPI based browser plugin that exposes 4 functions (register, isInstalled, isRunning, and notify) to JS.
 
 Usage
 -----
@@ -14,14 +14,23 @@ Embed the plugin and then get the embed element, once that is done you can call 
 &lt;embed type="application/x-jsgrowl" id="growl" hidden="true" /&gt;
 
 var growl = document.getElementById('growl');
+growl.register("application name");
+growl.notify("title", "message");
 
+register
+--------
+Registration is a mandatory step before you can call anything further.
+
+The application name is what will show up in the growl preference pane under os x for customizing the alerts.
+
+Register can be called with an optional url to an application icon. growl.register("my app", "http://myapp.com/myicon.png");
 
 isInstalled
-----------------
+-----------
 growl.isInstalled() - returns true if growl is installed.
 
 isRunning
---------------
+---------
 growl.isRunning() - returns true if growl is running.
 
 notify
