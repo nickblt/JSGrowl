@@ -13,12 +13,13 @@ Embed the plugin and then get the embed element, once that is done you can call 
 
 &lt;embed type="application/x-jsgrowl" id="growl" hidden="true" /&gt;
 
-var growl = document.getElementById('growl');
-growl.register("application name");
-growl.notify("title", "message");
+var growl = document.getElementById('growl');  
+growl.register("application name");  
+growl.notify("title", "message");  
 
 register
 --------
+growl.register("application name");  
 Registration is a mandatory step before you can call anything further.
 
 The application name is what will show up in the growl preference pane under os x for customizing the alerts.
