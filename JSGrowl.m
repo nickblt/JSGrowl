@@ -23,8 +23,9 @@ static bool growlRegister(const NPVariant *args, uint32_t argCount)
   {
     if (args[0].type == NPVariantType_String && args[1].type == NPVariantType_String)
     {
-      NSString *appName = [NSString stringWithCString:args[0].value.stringValue.UTF8Characters
-                                             encoding:NSUTF8StringEncoding];
+      NSString *appName = [[NSString alloc] initWithBytes:args[0].value.stringValue.UTF8Characters
+                                                   length:args[0].value.stringValue.UTF8Length
+                                                 encoding:NSUTF8StringEncoding];
 
       if (argCount == 1)
       {
@@ -33,8 +34,9 @@ static bool growlRegister(const NPVariant *args, uint32_t argCount)
       }
       else if (args[1].type == NPVariantType_String)
       {
-        NSString *url = [NSString stringWithCString:args[1].value.stringValue.UTF8Characters
-                                           encoding:NSUTF8StringEncoding];
+        NSString *url = [[NSString alloc] initWithBytes:args[1].value.stringValue.UTF8Characters
+                                                 length:args[1].value.stringValue.UTF8Length
+                                               encoding:NSUTF8StringEncoding];
 
         growl = [[GrowlNotifier alloc] initWithAppName:appName iconURL:url];
         return true;
