@@ -30,6 +30,7 @@ static bool growlRegister(const NPVariant *args, uint32_t argCount)
       if (argCount == 1)
       {
         growl = [[GrowlNotifier alloc] initWithAppName:appName];
+        [appName release];
         return true;
       }
       else if (args[1].type == NPVariantType_String)
@@ -39,6 +40,7 @@ static bool growlRegister(const NPVariant *args, uint32_t argCount)
                                                encoding:NSUTF8StringEncoding];
 
         growl = [[GrowlNotifier alloc] initWithAppName:appName iconURL:url];
+        [appName release];
         return true;
       }
     }
@@ -122,13 +124,13 @@ static bool invoke(NPObject* obj, NPIdentifier methodName, const NPVariant *args
 // no properties to show to JS
 static bool hasProperty(NPObject *obj, NPIdentifier propertyName)
 {
-	return false;
+  return false;
 }
 
 // no properties to show to JS
 static bool getProperty(NPObject *obj, NPIdentifier propertyName, NPVariant *result)
 {
-	return false;
+  return false;
 }
 
 // object references for passing to the browser
@@ -202,7 +204,8 @@ NPError NPP_Destroy(NPP instance, NPSavedData** save)
 
 NPError NPP_GetValue(NPP instance, NPPVariable variable, void *value)
 {
-	switch(variable) {
+  switch(variable)
+  {
     default:
       return NPERR_GENERIC_ERROR;
     case NPPVpluginScriptableNPObject:
@@ -211,8 +214,8 @@ NPError NPP_GetValue(NPP instance, NPPVariable variable, void *value)
       browser->retainobject(so);
       *(NPObject **)value = so;
       break;
-	}
-	return NPERR_NO_ERROR;
+  }
+  return NPERR_NO_ERROR;
 }
 
 // UNUSED NPAPI STUFF
